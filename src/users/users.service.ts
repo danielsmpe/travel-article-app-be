@@ -30,4 +30,9 @@ export class UsersService {
     const { password: _, ...userWithoutPassword } = savedUser;
     return userWithoutPassword;
   }
+
+  async findByUsername(username: string): Promise<Users | undefined> {
+    const user = await this.userRepo.findOne({ where: { username } });
+    return user ?? undefined;
+  }
 }
