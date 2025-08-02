@@ -31,13 +31,13 @@ export class ArticlesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.articlesService.findOne(id);
   }
 
   @Put(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() dto: UpdateArticleDto,
     @Request() req,
   ) {
@@ -45,7 +45,7 @@ export class ArticlesController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number, @Request() req) {
+  remove(@Param('id', ParseIntPipe) id: string, @Request() req) {
     return this.articlesService.remove(id, req.user);
   }
 }

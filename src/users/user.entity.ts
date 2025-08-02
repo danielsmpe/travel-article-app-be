@@ -8,11 +8,12 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Comment } from 'src/comments/comment.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   username: string;
@@ -23,6 +24,9 @@ export class User {
 
   @OneToMany(() => Article, (article) => article.author)
   articles: Article[];
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 
   @Exclude()
   @CreateDateColumn()

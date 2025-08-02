@@ -45,7 +45,7 @@ export class ArticlesService {
     return instanceToPlain(articles);
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const article = await this.articleRepo.findOne({
       where: { id },
     });
@@ -55,7 +55,7 @@ export class ArticlesService {
     return instanceToPlain(article);
   }
 
-  async update(id: number, dto: UpdateArticleDto, userPayload: any) {
+  async update(id: string, dto: UpdateArticleDto, userPayload: any) {
     const article = await this.articleRepo.findOne({
       where: { id },
     });
@@ -70,7 +70,7 @@ export class ArticlesService {
     return instanceToPlain(updated);
   }
 
-  async remove(id: number, userPayload: any): Promise<{ message: string }> {
+  async remove(id: string, userPayload: any): Promise<{ message: string }> {
     const article = await this.articleRepo.findOne({
       where: { id },
     });

@@ -1,17 +1,19 @@
+import { Comment } from 'src/comments/comment.entity';
 import { User } from 'src/users/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Article {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   title: string;
@@ -24,6 +26,9 @@ export class Article {
 
   @ManyToOne(() => User, (user) => user.articles, { eager: true })
   author: User;
+
+  @OneToMany(() => Comment, (comment) => comment.article)
+  comments: Comment[];
 
   @CreateDateColumn()
   createdAt: Date;
