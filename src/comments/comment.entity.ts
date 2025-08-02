@@ -10,7 +10,6 @@ import { User } from '../users/user.entity';
 import { Article } from '../articles/article.entity';
 
 @Entity()
-@Entity()
 export class Comment {
   @PrimaryGeneratedColumn('uuid')
   id: string;

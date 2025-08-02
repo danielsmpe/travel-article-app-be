@@ -36,15 +36,26 @@ export class CommentsService {
     return instanceToPlain(saved);
   }
 
-  async findAll(articleId: string) {
-    const comments = await this.commentRepo.find({
+  async findAll(articleId: string, page = 1, limit = 10): Promise<any> {
+    const [comments, total] = await this.commentRepo.findAndCount({
       where: { article: { id: articleId } },
       relations: ['author'],
       order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
-    return comments.map((comment) => instanceToPlain(comment));
+    return {
+      data: instanceToPlain(comments),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
+
   async findOne(commentId: string) {
     const comment = await this.commentRepo.findOne({
       where: { id: commentId },
@@ -53,6 +64,7 @@ export class CommentsService {
     if (!comment) throw new NotFoundException('Comment not found');
     return instanceToPlain(comment);
   }
+
   async update(commentId: string, dto: UpdateCommentDto, userPayload: any) {
     const comment = await this.commentRepo.findOne({
       where: { id: commentId },

@@ -37,12 +37,23 @@ export class ArticlesService {
     return instanceToPlain(saved);
   }
 
-  async findAll() {
-    const articles = await this.articleRepo.find({
+  async findAll(page = 1, limit = 10): Promise<any> {
+    const [articles, total] = await this.articleRepo.findAndCount({
+      relations: ['author'],
       order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
-    return instanceToPlain(articles);
+    return {
+      data: instanceToPlain(articles),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(id: string) {

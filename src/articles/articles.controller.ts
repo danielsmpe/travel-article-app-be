@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -39,8 +40,8 @@ export class ArticlesController {
 
   @Get()
   @ApiOperation({ summary: 'Get all articles' })
-  findAll() {
-    return this.articlesService.findAll();
+  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.articlesService.findAll(+page, +limit);
   }
 
   @Get(':id')

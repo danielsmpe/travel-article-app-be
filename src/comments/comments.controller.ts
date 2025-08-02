@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { JwtAuthGuard } from '../auth/jwt/jwt.auth.guard';
@@ -46,8 +47,13 @@ export class CommentsController {
   @Get('articles/:articleId/comments')
   @ApiOperation({ summary: 'Get all comments for an article' })
   @ApiParam({ name: 'articleId', type: String })
-  findAll(@Param('articleId') articleId: string) {
-    return this.commentService.findAll(articleId);
+  @Get()
+  findAll(
+    @Param('articleId') articleId: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ) {
+    return this.commentService.findAll(articleId, +page, +limit);
   }
 
   // === COMMENT-SPECIFIC ROUTES ===
