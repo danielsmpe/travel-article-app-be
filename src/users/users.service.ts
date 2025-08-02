@@ -35,4 +35,12 @@ export class UsersService {
     const user = await this.userRepo.findOne({ where: { username } });
     return user ?? undefined;
   }
+
+  async findById(id: string): Promise<User | undefined> {
+    const user = await this.userRepo.findOne({
+      where: { id },
+      select: ['id', 'username', 'createdAt', 'updatedAt'],
+    });
+    return user ?? undefined;
+  }
 }
