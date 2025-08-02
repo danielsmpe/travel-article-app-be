@@ -1,17 +1,17 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Users } from './user.entity';
+import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(Users) private userRepo: Repository<Users>) {}
+  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
   async register(
     createUserDto: CreateUserDto,
-  ): Promise<Omit<Users, 'password'>> {
+  ): Promise<Omit<User, 'password'>> {
     const { username, password } = createUserDto;
 
     const existingUser = await this.userRepo.findOne({ where: { username } });
@@ -31,7 +31,7 @@ export class UsersService {
     return userWithoutPassword;
   }
 
-  async findByUsername(username: string): Promise<Users | undefined> {
+  async findByUsername(username: string): Promise<User | undefined> {
     const user = await this.userRepo.findOne({ where: { username } });
     return user ?? undefined;
   }
