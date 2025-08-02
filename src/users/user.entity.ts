@@ -1,4 +1,4 @@
-import { Article } from 'src/articles/article.entity';
+import { Article } from '../articles/article.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Comment } from 'src/comments/comment.entity';
+import { Comment } from '../comments/comment.entity';
 
 @Entity()
 export class User {

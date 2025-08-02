@@ -22,14 +22,21 @@ import {
   ApiParam,
   ApiBody,
 } from '@nestjs/swagger';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Articles')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
+
+  @Public()
+  @Get('/public')
+  @ApiOperation({ summary: 'Get all public articles' })
+  findPublic() {
+    return this.articlesService.findPublic();
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create a new article' })

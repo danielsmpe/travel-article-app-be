@@ -96,4 +96,20 @@ export class ArticlesService {
       message: 'Article deleted successfully',
     };
   }
+
+  async findPublic(): Promise<any[]> {
+    const articles = await this.articleRepo.find({
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return articles.map((a) => ({
+      id: a.id,
+      title: a.title,
+      summary: a.summary,
+      thumbnail: a.thumbnail,
+      createdAt: a.createdAt,
+      author: { username: a.author?.username },
+    }));
+  }
 }

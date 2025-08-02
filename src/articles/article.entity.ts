@@ -1,5 +1,5 @@
-import { Comment } from 'src/comments/comment.entity';
-import { User } from 'src/users/user.entity';
+import { Comment } from '../comments/comment.entity';
+import { User } from '../users/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -23,6 +23,9 @@ export class Article {
 
   @Column('text')
   content: string;
+
+  @Column({ nullable: true })
+  thumbnail: string;
 
   @ManyToOne(() => User, (user) => user.articles, { eager: true })
   author: User;

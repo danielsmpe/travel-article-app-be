@@ -20,7 +20,6 @@ import {
   ApiOperation,
   ApiParam,
   ApiBody,
-  ApiResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('Comments')
