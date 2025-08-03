@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt.auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -14,8 +15,9 @@ export class UsersController {
   }
 
   @Get('me')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get user profile' })
   getProfile(@Req() req) {
-    return this.usersService.findById(req.user);
+    return this.usersService.findById(req.user.userId);
   }
 }
