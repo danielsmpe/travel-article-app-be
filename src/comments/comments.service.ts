@@ -36,7 +36,7 @@ export class CommentsService {
     return instanceToPlain(saved);
   }
 
-  async findAll(articleId: string, page = 1, limit = 10): Promise<any> {
+  async findAll(articleId: string, page = 1, limit = 9): Promise<any> {
     const [comments, total] = await this.commentRepo.findAndCount({
       where: { article: { id: articleId } },
       relations: ['author'],

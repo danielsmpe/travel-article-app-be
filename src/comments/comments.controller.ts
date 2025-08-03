@@ -50,7 +50,7 @@ export class CommentsController {
   findAll(
     @Param('articleId') articleId: string,
     @Query('page') page = 1,
-    @Query('limit') limit = 10,
+    @Query('limit') limit = 9,
   ) {
     return this.commentService.findAll(articleId, +page, +limit);
   }

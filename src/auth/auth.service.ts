@@ -12,19 +12,25 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usersService.findByUsername(username);
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const { password, ...result } = user;
-      return result;
+    if (!user) {
+      throw new UnauthorizedException('Username tidak ditemukan');
     }
-    return null;
+
+    const passwordValid = await bcrypt.compare(password, user.password);
+    if (!passwordValid) {
+      throw new UnauthorizedException('Password salah');
+    }
+
+    const { password: _, ...result } = user;
+    return result;
   }
 
   async login(username: string, password: string) {
     const user = await this.validateUser(username, password);
-    if (!user) throw new UnauthorizedException('Invalid credentials');
 
     const payload = { sub: user.id, username: user.username };
     return {
+      message: 'Login berhasil',
       access_token: this.jwtService.sign(payload),
     };
   }

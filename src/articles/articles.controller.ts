@@ -8,7 +8,6 @@ import {
   Put,
   UseGuards,
   Request,
-  ParseIntPipe,
   Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
@@ -33,9 +32,9 @@ export class ArticlesController {
 
   @Public()
   @Get('/public')
-  @ApiOperation({ summary: 'Get all public articles' })
-  findPublic() {
-    return this.articlesService.findPublic();
+  @ApiOperation({ summary: 'List public articles for landing page' })
+  findPublic(@Query('page') page = 1, @Query('limit') limit = 9) {
+    return this.articlesService.findPublic(+page, +limit);
   }
 
   @Post()
@@ -47,23 +46,23 @@ export class ArticlesController {
 
   @Get()
   @ApiOperation({ summary: 'Get all articles' })
-  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+  findAll(@Query('page') page = 1, @Query('limit') limit = 9) {
     return this.articlesService.findAll(+page, +limit);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get article by ID' })
-  @ApiParam({ name: 'id', type: Number })
-  findOne(@Param('id', ParseIntPipe) id: string) {
+  @ApiParam({ name: 'id', type: String })
+  findOne(@Param('id') id: string) {
     return this.articlesService.findOne(id);
   }
 
   @Put(':id')
   @ApiOperation({ summary: 'Update article by ID' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiBody({ type: UpdateArticleDto })
   update(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id') id: string,
     @Body() dto: UpdateArticleDto,
     @Request() req,
   ) {
@@ -72,8 +71,8 @@ export class ArticlesController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete article by ID' })
-  @ApiParam({ name: 'id', type: Number })
-  remove(@Param('id', ParseIntPipe) id: string, @Request() req) {
+  @ApiParam({ name: 'id', type: String })
+  remove(@Param('id') id: string, @Request() req) {
     return this.articlesService.remove(id, req.user);
   }
 }

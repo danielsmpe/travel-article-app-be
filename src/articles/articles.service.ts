@@ -37,7 +37,7 @@ export class ArticlesService {
     return instanceToPlain(saved);
   }
 
-  async findAll(page = 1, limit = 10): Promise<any> {
+  async findAll(page = 1, limit = 9): Promise<any> {
     const [articles, total] = await this.articleRepo.findAndCount({
       relations: ['author'],
       order: { createdAt: 'DESC' },
@@ -97,13 +97,15 @@ export class ArticlesService {
     };
   }
 
-  async findPublic(): Promise<any[]> {
-    const articles = await this.articleRepo.find({
+  async findPublic(page = 1, limit = 9): Promise<any> {
+    const [articles, total] = await this.articleRepo.findAndCount({
       relations: ['author'],
       order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
-    return articles.map((a) => ({
+    const data = articles.map((a) => ({
       id: a.id,
       title: a.title,
       summary: a.summary,
@@ -111,5 +113,15 @@ export class ArticlesService {
       createdAt: a.createdAt,
       author: { username: a.author?.username },
     }));
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 }

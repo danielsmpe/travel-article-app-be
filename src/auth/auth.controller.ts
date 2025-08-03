@@ -11,7 +11,10 @@ export class AuthController {
   @Post('login')
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({ status: 201, description: 'Login berhasil dan return JWT' })
-  @ApiResponse({ status: 401, description: 'Unauthorized: Login gagal' })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized: Username tidak ditemukan / Password salah',
+  })
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto.username, loginDto.password);
   }
