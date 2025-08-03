@@ -4,13 +4,16 @@ A simple backend application built with **NestJS** to manage travel-related arti
 
 ---
 
-## ⚙️ Tech Stack
+## 🚀 Tech Stack
 
-- **Framework:** NestJS
-- **Database:** PostgreSQL
-- **ORM:** TypeORM
-- **Authentication:** JWT (Bearer Token)
-- **API Documentation:** Swagger (OpenAPI)
+- NestJS (TypeScript)
+- PostgreSQL
+- TypeORM
+- JWT Authentication
+- Docker & Docker Compose
+- Swagger for API Documentation
+- bcrypt for password hashing
+- class-validator for input validation
 
 ---
 
@@ -18,60 +21,111 @@ A simple backend application built with **NestJS** to manage travel-related arti
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/travel-article-app.git
-cd travel-article-app
+git clone https://github.com/your-username/travel-article-app-be.git
+cd travel-article-app-be
 
-# 2. Install dependencies
+# 2. Create environment file (.env)
+# Example:
+DATABASE_HOST=db
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=travel_db
+JWT_SECRET=your_jwt_secret
+
+# 3. Run using Docker Compose (Recommended)
+docker-compose up --build
+
+# --- OR ---
+
+# (Dev only) Start the development server locally
 npm install
-
-# 3. Create environment file
-cat > .env <<EOF
-DATABASE_URL=postgresql://user:password@localhost:5432/your_database
-JWT_SECRET=your_jwt_secret_key
-EOF
-
-# 4. Start the development server
 npm run start:dev
 ```
 
-## 📬 Swagger API Docs
+---
 
-After running the app, access Swagger at:
+## 📬 API Documentation
 
-```
-http://localhost:3000/api
-```
+Swagger is available after running the app:
+
+👉 [http://localhost:3000/api](http://localhost:3000/api)
+
+---
 
 ## 🧩 List of API Endpoints
 
-### 🔑 Auth
+### 🔐 Authentication Endpoints
 
-POST /auth/login → Login user
+| Method | Endpoint       | Description        |
+| ------ | -------------- | ------------------ |
+| POST   | /auth/register | Register a user    |
+| POST   | /auth/login    | Login, returns JWT |
+| GET    | /auth/me       | Get current user   |
 
-POST /users/register → Register a new user
+### 📄 Article Endpoints
 
-GET /users/me → Get current user's profile (requires token)
+| Method | Endpoint                 | Auth | Description               |
+| ------ | ------------------------ | ---- | ------------------------- |
+| GET    | /articles/public         | ✅   | List all Preview articles |
+| GET    | /articles?page=1&limit=5 | ✅   | List all articles         |
+| POST   | /articles                | ✅   | Create new article        |
+| GET    | /articles/:id            | ✅   | Get article by ID         |
+| PUT    | /articles/:id            | ✅   | Update article (author)   |
+| DELETE | /articles/:id            | ✅   | Delete article (author)   |
 
-### 📝 Articles
+### 💬 Comment Endpoints
 
-GET /articles → Get all articles
+| Method | Endpoint                                      | Auth | Description              |
+| ------ | --------------------------------------------- | ---- | ------------------------ |
+| POST   | articles/:articleId/comments                  | ✅   | Add comment to article   |
+| GET    | /articles/:articleId/comments?page=1&limit=10 | ✅   | List comments of article |
+| GET    | /comments/:id                                 | ✅   | Get comments by ID       |
+| PATCH  | /comments/:id                                 | ✅   | Update own comment       |
+| DELETE | /comments/:id                                 | ✅   | Delete own comment       |
 
-GET /articles/:id → Get single article by ID
+---
 
-POST /articles → Create a new article
+## 🧪 Postman Collection
 
-PUT /articles/:id → Update an article
+- import the Postman collection manually
+  https://gist.github.com/danielsmpe/c3754f741781a636a4ab569d3ae1a665
 
-DELETE /articles/:id → Delete an article
+---
 
-### 💬 Comments
+## 📂 Project Structure
 
-GET /articles/:articleId/comments → Get comments for an article
+```
+src/
+├── auth/
+├── users/
+├── articles/
+├── comments/
+├── common/
+├── main.ts
+└── app.module.ts
+```
 
-POST /articles/:articleId/comments → Add comment to an article
+---
 
-GET /comments/:id → Get a single comment by ID
+## 🐳 Docker Info
 
-PATCH /comments/:id → Update a comment
+Docker Compose will run the following services:
 
-DELETE /comments/:id → Delete a comment
+- **Backend (NestJS)** → [http://localhost:3000](http://localhost:3000)
+- **PostgreSQL** → Port `5432` (internal DB service)
+
+> Make sure local PostgreSQL is **stopped** to avoid port conflicts.
+
+`.env` file is required for DB credentials and secrets.
+
+---
+
+## 📌 Notes
+
+- Passwords are hashed with `bcrypt`
+- JWT is handled using `@nestjs/jwt` and `JwtAuthGuard`
+- Swagger is automatically generated
+- Validation with `class-validator`
+- Follows RESTful best practices
+- Docker-first deployment approach
