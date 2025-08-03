@@ -17,7 +17,7 @@ import { CommentsModule } from './comments/comments.module';
       password: process.env.DB_PASSWORD || 'POLQWS',
       database: process.env.DB_NAME || 'travel_app',
       autoLoadEntities: true,
-      synchronize: true, // development
+      synchronize: false,
     }),
     UsersModule,
     AuthModule,

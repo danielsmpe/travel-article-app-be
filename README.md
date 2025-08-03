@@ -49,7 +49,7 @@ npm run start:dev
 
 Swagger is available after running the app:
 
-👉 [http://localhost:3000/api](http://localhost:3000/api)
+👉 [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ---
 
@@ -67,7 +67,7 @@ Swagger is available after running the app:
 
 | Method | Endpoint                 | Auth | Description               |
 | ------ | ------------------------ | ---- | ------------------------- |
-| GET    | /articles/public         | ✅   | List all Preview articles |
+| GET    | /articles/public         | ❌   | List all Preview articles |
 | GET    | /articles?page=1&limit=5 | ✅   | List all articles         |
 | POST   | /articles                | ✅   | Create new article        |
 | GET    | /articles/:id            | ✅   | Get article by ID         |
@@ -88,8 +88,7 @@ Swagger is available after running the app:
 
 ## 🧪 Postman Collection
 
-- import the Postman collection manually
-  https://gist.github.com/danielsmpe/c3754f741781a636a4ab569d3ae1a665
+- https://documenter.getpostman.com/view/31346275/2sB3BAMstj
 
 ---
 
