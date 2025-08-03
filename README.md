@@ -26,11 +26,11 @@ cd travel-article-app-be
 
 # 2. Create environment file (.env)
 # Example:
-DATABASE_HOST=db
-DATABASE_PORT=5432
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
-DATABASE_NAME=travel_db
+DB_HOST=db
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=travel_db
 JWT_SECRET=your_jwt_secret
 
 # 3. Run using Docker Compose (Recommended)
