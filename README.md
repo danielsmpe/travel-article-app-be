@@ -21,7 +21,7 @@ A simple backend application built with **NestJS** to manage travel-related arti
 
 ```bash
 # 1. Clone the repository
-git clone (https://github.com/danielsmpe/travel-article-app-be.git
+git clone https://github.com/danielsmpe/travel-article-app-be.git
 cd travel-article-app-be
 
 # 2. Create environment file (.env)
