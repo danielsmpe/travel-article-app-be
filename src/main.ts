@@ -9,7 +9,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',
       'http://localhost:4173',
-      'https://travel-article-iota.vercel.app/',
+      'https://travel-article-iota.vercel.app',
     ],
     credentials: true,
   });
